@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "420344171225",
+    "project_id": "inapos-946c9",
+    "storage_bucket": "inapos-946c9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:420344171225:android:8e5d003071fde20e410cc8",
+        "android_client_info": {
+          "package_name": "com.flutterthailand.inapos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "420344171225-9k95l7rbh4tu1i03ju46ddhioqmljfvb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAojSbAUBPxgul0sY6WsPIkRH2y4GlZCjU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "420344171225-9k95l7rbh4tu1i03ju46ddhioqmljfvb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

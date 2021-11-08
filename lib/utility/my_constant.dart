@@ -1,0 +1,46 @@
+class MyConstant {
+  String urlUserAdd = 'http://innoligent1.ddns.net:12345/repair/user/add';
+  String urlUserEdit = 'http://innoligent1.ddns.net:12345/repair/user/edit';
+  String urlUserDelete = 'http://innoligent1.ddns.net:12345/repair/user/delete';
+  String urlUserCheck = 'http://innoligent1.ddns.net:12345/repair/user/username';
+  String urlUserRead = 'http://innoligent1.ddns.net:12345/repair/user/all';
+  String urlBranchAdd = 'http://innoligent1.ddns.net:12345/repair/branch/add';
+  String urlBranchEdit = 'http://innoligent1.ddns.net:12345/repair/branch/edit';
+  String urlBranchDelete = 'http://innoligent1.ddns.net:12345/repair/branch/delete';
+  String urlBranchCheck = 'http://innoligent1.ddns.net:12345/repair/branch/check';
+  String urlBranchRead = 'http://innoligent1.ddns.net:12345/repair/branch/all';
+  String urlBranchName = 'http://innoligent1.ddns.net:12345/repair/branch/checkname';
+  String urlBranchNameCheck = 'http://innoligent1.ddns.net:12345/repair/branch/name';
+  String urlJobAdd = 'http://innoligent1.ddns.net:12345/repair/job/add';
+  String urlJobEdit = 'http://innoligent1.ddns.net:12345/repair/job/edit';
+  String urlJobCheck = 'http://innoligent1.ddns.net:12345/repair/job/check';
+  String urlStatuscheck = 'http://innoligent1.ddns.net:12345/repair/status/check';
+  String urlStatuschec2 = 'http://innoligent1.ddns.net:12345/re/st/ch/2';
+  String urlStatuschec3 = 'http://innoligent1.ddns.net:12345/re/st/ch/3';
+  String urlHistory = 'http://innoligent1.ddns.net:12345/repair/history/work';
+  String urlHistory2 = 'http://innoligent1.ddns.net:12345/re/hi/wo2';
+  String urlStockCheck = 'http://innoligent1.ddns.net:12345/repair/stock/check';
+  String urlStockAdd = 'http://innoligent1.ddns.net:12345/repair/stock/add';
+  String urlStockEdit = 'http://innoligent1.ddns.net:12345/repair/stock/edit';
+  String urlStockTranOut = 'http://innoligent1.ddns.net:12345/re/st/tf/out';
+  String urlStockTranOutCheck = 'http://innoligent1.ddns.net:12345/re/st/tf/ch';
+  String urlStockRec = 'http://innoligent1.ddns.net:12345/repair/stock/recieve';
+  String urlStockRecAdd = 'http://innoligent1.ddns.net:12345/repair/stock/recieve/add';
+  String urlStockTranInCheck = 'http://innoligent1.ddns.net:12345/re/st/tr/in';
+  String urlStockTranInAdd = 'http://innoligent1.ddns.net:12345/re/st/tr/ad';
+  String urlBranchList = 'http://innoligent1.ddns.net:12345/re/br/na';
+  String urlGetItem = 'http://innoligent1.ddns.net:12345/item';
+  String urlStockOut = 'http://innoligent1.ddns.net:12345/re/st/out';
+  String urlStockOutList = 'http://innoligent1.ddns.net:12345/re/st/out/list';
+  String urlStockBillLading = 'http://innoligent1.ddns.net:12345/re/st/ld';
+  String urlStockBillLadingEdit = 'http://innoligent1.ddns.net:12345/re/st/ld/ed';
+  String urlStockPipeAdd = 'http://innoligent1.ddns.net:12345/re/st/out/pipe';
+  String urlStockPipe = 'http://innoligent1.ddns.net:12345/re/st/out/list/pipe';
+  String urlStockBillLadingCancel = 'http://innoligent1.ddns.net:12345/re/st/ld/can';
+  String urlPmAdd = 'http://innoligent1.ddns.net:12345/pm/add';
+  String urlPm = 'http://innoligent1.ddns.net:12345/pm';
+  String urlInOut = 'http://innoligent1.ddns.net:12345/working/stamp';
+  String urlInOutDetail = 'http://innoligent1.ddns.net:12345/working/select';
+
+  MyConstant();
+}
