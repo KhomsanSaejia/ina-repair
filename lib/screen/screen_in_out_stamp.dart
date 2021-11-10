@@ -42,10 +42,8 @@ class _ScreenInOutTimeState extends State<ScreenInOutTime> {
 
   Future<Null> readInOutTime() async {
     if (inoutModels.length != 0) {
-      print(inoutModels);
       inoutModels.clear();
     }
-    print('status = $status');
     String url = '${MyConstant().urlInOut}';
     await Dio().post(url, data: {"emp_id": userCode}).then((value) {
       setState(() {
@@ -209,7 +207,6 @@ class _ScreenInOutTimeState extends State<ScreenInOutTime> {
     sheet.getRangeByName('E1').setText('over_time');
 
     for (var item in inoutModels) {
-      print('${item.inDate} C$count');
       sheet.getRangeByName('A$count').setText(item.empId);
       sheet.getRangeByName('B$count').setText(item.inDate);
       sheet.getRangeByName('C$count').setText(item.inTime);

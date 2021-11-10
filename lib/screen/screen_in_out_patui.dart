@@ -52,10 +52,8 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
 
   Future<Null> readalluser() async {
     if (myListuseraddModel.length != 0) {
-      print(myListuseraddModel);
       myListuseraddModel.clear();
     }
-    print('status = $status');
     String url = '${MyConstant().urlUserRead}';
     await Dio().get(url).then((value) {
       setState(() {
@@ -83,7 +81,6 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
     }
     String url =
         '${MyConstant().urlInOutDetail}?emp_id=$selectEmp&f_date=${selectedDateStart.toString().split(' ')[0]}&l_date=${selectedDateStop.toString().split(' ')[0]}';
-    print(url);
     await Dio().get(url).then((value) {
       setState(() {
         loadstatus = false;
@@ -111,7 +108,6 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
     }
     String url =
         '${MyConstant().urlInOutAll}?f_date=${selectedDateStart.toString().split(' ')[0]}&l_date=${selectedDateStop.toString().split(' ')[0]}';
-    print(url);
     await Dio().get(url).then((value) {
       setState(() {
         loadstatus = false;
@@ -721,7 +717,6 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
       'พฤศจิกายน',
       'ธันวาคม'
     ];
-    print('$_month $_monthNo $_year');
 
     final excel.Workbook workbook = excel.Workbook();
     final excel.Worksheet sheet = workbook.worksheets[0];
