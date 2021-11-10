@@ -1,15 +1,22 @@
 import 'dart:async';
-
+import 'dart:convert';
+// import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+// import 'package:flutter/services.dart';
 import 'package:inapos/model/in_out_model.dart';
 import 'package:inapos/model/user_add_model.dart';
-import 'package:inapos/utility/dialog.dart';
+// import 'package:inapos/utility/dialog.dart';
 // import 'package:inapos/utility/dialog.dart';
 // import 'package:inapos/model/user_model.dart';
 import 'package:inapos/utility/my_constant.dart';
 import 'package:inapos/utility/mystyle.dart';
 import 'package:flutter_speed_dial_material_design/flutter_speed_dial_material_design.dart';
+import 'package:syncfusion_flutter_xlsio/xlsio.dart' as excel;
+import 'package:universal_html/html.dart' show AnchorElement;
+import 'package:flutter/foundation.dart' show kIsWeb;
+// import 'package:open_file/open_file.dart';
+// import 'package:path_provider/path_provider.dart';
 
 // import 'package:fab_circular_menu/fab_circular_menu.dart';
 
@@ -34,6 +41,8 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
 
   DateTime selectedDateStart = DateTime.now();
   DateTime selectedDateStop = DateTime.now();
+
+  int count = 13;
 
   @override
   void initState() {
@@ -70,12 +79,11 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
 
   Future<Null> readInOutTime() async {
     if (inOutModels.length != 0) {
-      print(inOutModels);
       inOutModels.clear();
     }
-    print('status = $status');
     String url =
         '${MyConstant().urlInOutDetail}?emp_id=$selectEmp&f_date=${selectedDateStart.toString().split(' ')[0]}&l_date=${selectedDateStop.toString().split(' ')[0]}';
+    print(url);
     await Dio().get(url).then((value) {
       setState(() {
         loadstatus = false;
@@ -83,8 +91,34 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
       if (value.toString() != 'null') {
         for (var map in value.data) {
           InOutModel inOutModel = InOutModel.fromJson(map);
-          print(inOutModel.id);
-          print(inOutModel.inDate);
+
+          setState(() {
+            inOutModels.add(inOutModel);
+            status = true;
+          });
+        }
+      } else {
+        setState(() {
+          status = false;
+        });
+      }
+    });
+  }
+
+  Future<Null> readInOutTimeAll() async {
+    if (inOutModels.length != 0) {
+      inOutModels.clear();
+    }
+    String url =
+        '${MyConstant().urlInOutAll}?f_date=${selectedDateStart.toString().split(' ')[0]}&l_date=${selectedDateStop.toString().split(' ')[0]}';
+    print(url);
+    await Dio().get(url).then((value) {
+      setState(() {
+        loadstatus = false;
+      });
+      if (value.toString() != 'null') {
+        for (var map in value.data) {
+          InOutModel inOutModel = InOutModel.fromJson(map);
 
           setState(() {
             inOutModels.add(inOutModel);
@@ -170,7 +204,15 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
   }
 
   _onSpeedDialAction(int selectedActionIndex) {
-    print('$selectedActionIndex Selected');
+    if (selectedActionIndex == 0) {
+      createExcelSelect();
+      setState(() {
+        count = 13;
+      });
+    } else {
+      readInOutTimeAll();
+      print('$selectedActionIndex Selected');
+    }
   }
 
   Widget textBoxCustom(TextEditingController _textEditingController) {
@@ -400,7 +442,7 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
                 child: Mystyle().showTitleCustom("ไม่มีข้อมูล"),
               )
             : SingleChildScrollView(
-                // scrollDirection: Axis.vertical,
+                scrollDirection: Axis.vertical,
                 child: DataTable(
                   showCheckboxColumn: false,
                   columns: const <DataColumn>[
@@ -459,6 +501,17 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
                         ),
                       ),
                     ),
+                    DataColumn(
+                      label: Text(
+                        'ชื่อ - นามสกุล',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 15,
+                          fontFamily: 'Sarabun',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   ],
                   rows: inOutModels
                       .map(
@@ -474,8 +527,8 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
                                       Mystyle().textHeader("แก้ไขหมายเหตุ"),
                                       textBoxCustom(_valRef),
                                       Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        // mainAxisAlignment:
+                                        // MainAxisAlignment.spaceBetween,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
@@ -586,6 +639,20 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
                                 ),
                               ),
                             ),
+                            DataCell(
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.1,
+                                child: Text(
+                                  inOutModel.empName.toString(),
+                                  style: TextStyle(
+                                    color: Colors.green,
+                                    fontSize: 13,
+                                    fontFamily: 'Sarabun',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       )
@@ -606,7 +673,7 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
               // if (_valFileName.text.isEmpty) {
               //   normalDialog(context, "กรุณากรอกข้อมูลให้ครบ");
               // } else {
-              //   // createExcel();
+              //   // createExcelSelect();
               //   Navigator.pop(context);
               //   setState(() {
               //     readInOutTime();
@@ -635,6 +702,163 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
       ),
     );
   }
+
+  Future<void> createExcelSelect() async {
+    String _month = selectedDateStop.toString().split(' ')[0];
+    int _monthNo = int.parse(_month.split('-')[1]);
+    int _year = int.parse(_month.split('-')[0]);
+    List<String> _monthName = [
+      'มกราคม',
+      'กุมภาพันธ์',
+      'มีนาคม',
+      'เมษายน',
+      'พฤษภาคม',
+      'มิถุนายน',
+      'กรกฎาคม',
+      'สิงหาคม',
+      'กันยายน',
+      'ตุลาคม',
+      'พฤศจิกายน',
+      'ธันวาคม'
+    ];
+    print('$_month $_monthNo $_year');
+
+    final excel.Workbook workbook = excel.Workbook();
+    final excel.Worksheet sheet = workbook.worksheets[0];
+
+    // final excel.Picture picture =
+    //     sheet.pictures.addStream(1, 2, await _readImageData('INA-LOGO.png'));
+    // picture.lastRow = 5;
+    // picture.lastColumn = 3;
+
+    sheet.getRangeByName('A1').columnWidth = 8.43;
+    sheet.getRangeByName('B1').columnWidth = 12.00;
+    sheet.getRangeByName('C1:H1').columnWidth = 8.43;
+    sheet.getRangeByName('I1').columnWidth = 3.57;
+
+    final excel.Range mergeHeader1 = sheet.getRangeByName('C1:G2');
+    mergeHeader1.merge();
+    mergeHeader1.cellStyle.hAlign = excel.HAlignType.center;
+    mergeHeader1.cellStyle.vAlign = excel.VAlignType.center;
+
+    sheet.getRangeByName('C1').text = 'บริษัท อินโนลิเจนท์ ออโตเมชั่น จำกัด';
+    sheet.getRangeByName('C1').cellStyle.fontSize = 20;
+    sheet.getRangeByName('C1').cellStyle.fontName = 'TH Sarabun New';
+    sheet.getRangeByName('C1').cellStyle.bold = true;
+
+    final excel.Range mergeHeader2 = sheet.getRangeByName('C3:G3');
+    mergeHeader2.merge();
+    mergeHeader2.cellStyle.hAlign = excel.HAlignType.center;
+    mergeHeader2.cellStyle.vAlign = excel.VAlignType.center;
+
+    sheet.getRangeByName('C3').text = 'รายงานบันทึกเวลา การ เข้า- ออก งาน';
+    sheet.getRangeByName('C3').cellStyle.fontSize = 15;
+    sheet.getRangeByName('C3').cellStyle.fontName = 'TH Sarabun New';
+    sheet.getRangeByName('C1').cellStyle.bold = true;
+
+    final excel.Range mergeHeader3 = sheet.getRangeByName('C4:G4');
+    mergeHeader3.merge();
+    mergeHeader3.cellStyle.hAlign = excel.HAlignType.center;
+    mergeHeader3.cellStyle.vAlign = excel.VAlignType.center;
+
+    sheet.getRangeByName('C4').text =
+        'ประจำเดือน ${_monthName[_monthNo - 1]} ปี $_year';
+    sheet.getRangeByName('C4').cellStyle.fontSize = 15;
+    sheet.getRangeByName('C4').cellStyle.fontName = 'TH Sarabun New';
+    sheet.getRangeByName('C1').cellStyle.bold = true;
+
+    final excel.Style style1 = workbook.styles.add('style1');
+    style1.borders.top.lineStyle = excel.LineStyle.medium;
+    style1.borders.top.color = '#AEAAAA';
+
+    sheet.getRangeByName('A5:I5').merge();
+    sheet.getRangeByName('A5:I5').cellStyle = style1;
+
+    sheet.getRangeByName('B6').text = 'รหัสพนักงาน';
+    sheet.getRangeByName('B7').text = 'ชื่อ - นามสกุล';
+    sheet.getRangeByName('B8').text = 'ตำแหน่ง';
+    sheet.getRangeByName('B9').text = 'แผนก';
+
+    sheet.getRangeByName('C6').text = ':';
+    sheet.getRangeByName('C7').text = ':';
+    sheet.getRangeByName('C8').text = ':';
+    sheet.getRangeByName('C9').text = ':';
+
+    final excel.Range mergeempId = sheet.getRangeByName('D6:H6');
+    mergeempId.merge();
+    mergeempId.cellStyle.hAlign = excel.HAlignType.right;
+    mergeempId.cellStyle.vAlign = excel.VAlignType.center;
+    sheet.getRangeByName('D6').text = inOutModels[0].empId;
+
+    final excel.Range mergeempName = sheet.getRangeByName('D7:H7');
+    mergeempName.merge();
+    mergeempName.cellStyle.hAlign = excel.HAlignType.right;
+    mergeempName.cellStyle.vAlign = excel.VAlignType.center;
+    sheet.getRangeByName('D7').text = inOutModels[0].empName;
+
+    final excel.Range mergeempPosition = sheet.getRangeByName('D8:H8');
+    mergeempPosition.merge();
+    mergeempPosition.cellStyle.hAlign = excel.HAlignType.right;
+    mergeempPosition.cellStyle.vAlign = excel.VAlignType.center;
+    sheet.getRangeByName('D8').text = inOutModels[0].empPosition;
+
+    final excel.Range mergeempDepartment = sheet.getRangeByName('D9:H9');
+    mergeempDepartment.merge();
+    mergeempDepartment.cellStyle.hAlign = excel.HAlignType.right;
+    mergeempDepartment.cellStyle.vAlign = excel.VAlignType.center;
+    sheet.getRangeByName('D9').text = inOutModels[0].empDepartment;
+
+    final excel.Style style2 = workbook.styles.add('style2');
+    style2.borders.bottom.lineStyle = excel.LineStyle.medium;
+    style2.borders.bottom.color = '#AEAAAA';
+
+    sheet.getRangeByName('A10:I10').merge();
+    sheet.getRangeByName('A10:I10').cellStyle = style2;
+
+    sheet.getRangeByName('A12').setText('ลำดับ');
+    sheet.getRangeByName('B12').setText('วันที่');
+    sheet.getRangeByName('C12').setText('เวลาเข้า');
+    sheet.getRangeByName('D12').setText('เวลาออก');
+    sheet.getRangeByName('E12').setText('โอที');
+    sheet.getRangeByName('F12').setText('หมายเหตุ');
+
+    for (var item in inOutModels) {
+      sheet.getRangeByName('A$count').setText((count - 12).toString());
+      sheet.getRangeByName('B$count').setText(item.inDate);
+      sheet.getRangeByName('C$count').setText(item.inTime);
+      sheet.getRangeByName('D$count').setText(item.outTime);
+      sheet.getRangeByName('E$count').setText(item.overTime);
+      sheet.getRangeByName('F$count').setText(item.referrence);
+      setState(() {
+        count = count + 1;
+      });
+    }
+
+    sheet.getRangeByName('A${count + 2}:D${count + 2}').merge();
+    sheet
+        .getRangeByName('A${count + 2}')
+        .setText('ผู้ตรวจสอบ (….............................................)');
+
+    sheet.getRangeByName('E${count + 2}:I${count + 2}').merge();
+    sheet.getRangeByName('E${count + 2}').setText(
+        'ชื่อพนักงาน (….............................................)');
+
+    final List<int> bytes = workbook.saveAsStream();
+    workbook.dispose();
+    if (kIsWeb) {
+      AnchorElement(
+          href:
+              'data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}')
+        ..setAttribute('download',
+            'รายงานบันทึกเวลา ประจำเดือน ${_monthName[_monthNo - 1]} ปี $_year ${inOutModels[0].empName}.xlsx')
+        ..click();
+    }
+  }
+
+  // Future<List<int>> _readImageData(String name) async {
+  //   final ByteData data = await rootBundle.load('images/$name');
+  //   return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+  // }
 
   Widget textBox() {
     return Container(

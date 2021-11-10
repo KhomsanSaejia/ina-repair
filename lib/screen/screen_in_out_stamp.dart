@@ -70,135 +70,133 @@ class _ScreenInOutTimeState extends State<ScreenInOutTime> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: inoutModels.length == 0
-            ? Mystyle().showprogress()
-            : SingleChildScrollView(
-                // scrollDirection: Axis.vertical,
-                child: Center(
-                  child: DataTable(
-                    columns: const <DataColumn>[
-                      DataColumn(
-                        label: Text(
-                          'วันที่',
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 15,
-                            fontFamily: 'Sarabun',
-                            fontWeight: FontWeight.bold,
-                          ),
+      body: inoutModels.length == 0
+          ? Mystyle().showprogress()
+          : SingleChildScrollView(
+              // scrollDirection: Axis.vertical,
+              child: Center(
+                child: DataTable(
+                  columns: const <DataColumn>[
+                    DataColumn(
+                      label: Text(
+                        'วันที่',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 15,
+                          fontFamily: 'Sarabun',
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      DataColumn(
-                        label: Text(
-                          'เวลาเข้างาน',
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 15,
-                            fontFamily: 'Sarabun',
-                            fontWeight: FontWeight.bold,
-                          ),
+                    ),
+                    DataColumn(
+                      label: Text(
+                        'เวลาเข้างาน',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 15,
+                          fontFamily: 'Sarabun',
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      DataColumn(
-                        label: Text(
-                          'เวลาออกงาน',
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 15,
-                            fontFamily: 'Sarabun',
-                            fontWeight: FontWeight.bold,
-                          ),
+                    ),
+                    DataColumn(
+                      label: Text(
+                        'เวลาออกงาน',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 15,
+                          fontFamily: 'Sarabun',
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      DataColumn(
-                        label: Text(
-                          'หมายเหตุ',
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 15,
-                            fontFamily: 'Sarabun',
-                            fontWeight: FontWeight.bold,
-                          ),
+                    ),
+                    DataColumn(
+                      label: Text(
+                        'หมายเหตุ',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 15,
+                          fontFamily: 'Sarabun',
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ],
-                    rows: inoutModels
-                        .map(
-                          (inOutModel) => DataRow(
-                            cells: [
-                              DataCell(
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.2,
-                                  child: Text(
-                                    inOutModel.inDate.toString(),
-                                    style: TextStyle(
-                                      color: Colors.blue.shade400,
-                                      fontSize: 13,
-                                      fontFamily: 'Sarabun',
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                    ),
+                  ],
+                  rows: inoutModels
+                      .map(
+                        (inOutModel) => DataRow(
+                          cells: [
+                            DataCell(
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.2,
+                                child: Text(
+                                  inOutModel.inDate.toString(),
+                                  style: TextStyle(
+                                    color: Colors.blue.shade400,
+                                    fontSize: 13,
+                                    fontFamily: 'Sarabun',
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
-                              DataCell(
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.2,
-                                  child: Text(
-                                    inOutModel.inTime.toString(),
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 13,
-                                      fontFamily: 'Sarabun',
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                            ),
+                            DataCell(
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.2,
+                                child: Text(
+                                  inOutModel.inTime.toString(),
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 13,
+                                    fontFamily: 'Sarabun',
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
-                              DataCell(
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.2,
-                                  child: Text(
-                                    inOutModel.outTime.toString(),
-                                    style: TextStyle(
-                                      color: Colors.green,
-                                      fontSize: 13,
-                                      fontFamily: 'Sarabun',
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                            ),
+                            DataCell(
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.2,
+                                child: Text(
+                                  inOutModel.outTime.toString(),
+                                  style: TextStyle(
+                                    color: Colors.green,
+                                    fontSize: 13,
+                                    fontFamily: 'Sarabun',
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
-                              DataCell(
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.2,
-                                  child: Text(
-                                    inOutModel.referrence.toString(),
-                                    style: TextStyle(
-                                      color: Colors.green,
-                                      fontSize: 13,
-                                      fontFamily: 'Sarabun',
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                            ),
+                            DataCell(
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.2,
+                                child: Text(
+                                  inOutModel.referrence.toString(),
+                                  style: TextStyle(
+                                    color: Colors.green,
+                                    fontSize: 13,
+                                    fontFamily: 'Sarabun',
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
-                        )
-                        .toList(),
-                  ),
+                            ),
+                          ],
+                        ),
+                      )
+                      .toList(),
                 ),
               ),
-        floatingActionButton: FloatingActionButton.extended(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              createExcel();
-            },
-            label: Text("DATA")));
+            ),
+      // floatingActionButton: FloatingActionButton.extended(
+      //   icon: Icon(Icons.add),
+      //   onPressed: () {
+      //     createExcel();
+      //   },
+      //   label: Text("DATA"),
+      // ),
+    );
   }
 
   Future<void> createExcel() async {

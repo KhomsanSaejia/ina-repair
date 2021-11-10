@@ -1,52 +1,48 @@
 class InOutModel {
-  int id;
   String empId;
+  String empName;
   String inDate;
   String inTime;
-  String inUnixtime;
-  String outDate;
   String outTime;
-  String outUnixtime;
   String overTime;
   String referrence;
+  String empDepartment;
+  String empPosition;
 
   InOutModel(
-      {this.id,
-      this.empId,
+      {this.empId,
+      this.empName,
       this.inDate,
       this.inTime,
-      this.inUnixtime,
-      this.outDate,
       this.outTime,
-      this.outUnixtime,
       this.overTime,
-      this.referrence});
+      this.referrence,
+      this.empDepartment,
+      this.empPosition});
 
   InOutModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
     empId = json['emp_id'];
+    empName = json['emp_Name'];
     inDate = json['in_date'];
     inTime = json['in_time'];
-    inUnixtime = json['in_unixtime'];
-    outDate = json['out_date'];
     outTime = json['out_time'];
-    outUnixtime = json['out_unixtime'];
     overTime = json['over_time'];
     referrence = json['referrence'];
+    empDepartment = json['emp_Department'];
+    empPosition = json['emp_Position'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
     data['emp_id'] = this.empId;
+    data['emp_Name'] = this.empName;
     data['in_date'] = this.inDate;
     data['in_time'] = this.inTime;
-    data['in_unixtime'] = this.inUnixtime;
-    data['out_date'] = this.outDate;
     data['out_time'] = this.outTime;
-    data['out_unixtime'] = this.outUnixtime;
     data['over_time'] = this.overTime;
     data['referrence'] = this.referrence;
+    data['emp_Department'] = this.empDepartment;
+    data['emp_Position'] = this.empPosition;
     return data;
   }
 }
