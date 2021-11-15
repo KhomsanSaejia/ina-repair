@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inapos/screen/screen_history_work2.dart';
 import 'package:inapos/utility/mystyle.dart';
 import 'package:inapos/utility/sign_out_process.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -179,6 +180,7 @@ class _ScreenMainAdminState extends State<ScreenMainAdmin> {
         onTap: () {
           setState(() {
             currentWidget = ScreenHistoryWork();
+            // currentWidget = ScreenHistoryWork2();
             nameAppbar = 'ประวัติการเปิดงาน';
           });
           Navigator.pop(context);
@@ -291,7 +293,7 @@ class _ScreenMainAdminState extends State<ScreenMainAdmin> {
         title: Text('เวลาเข้า-ออก', style: TextStyle(fontFamily: 'Sarabun')),
         onTap: () {
           setState(() {
-            if (userCode == "62000611") {
+            if (userCode == "62000611" || userCode == "62000613") {
               currentWidget = ScreenInOutPatui();
             } else {
               currentWidget = ScreenInOutTime();

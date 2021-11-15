@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inapos/screen/screen_history_work.dart';
+
 // import 'package:inapos/screen/screen_homepage.dart';
 import 'package:inapos/screen/screen_homepage_2.dart';
 import 'package:inapos/screen/screen_in_out_stamp.dart';
@@ -14,6 +14,9 @@ import 'package:inapos/utility/mystyle.dart';
 import 'package:inapos/utility/sign_out_process.dart';
 // import 'package:inapos/widget/th/screen_th_repair_manage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'screen_history_work.dart';
+import 'screen_history_work2.dart';
 
 class ScreenMainUser extends StatefulWidget {
   @override
@@ -213,6 +216,7 @@ class _ScreenMainUserState extends State<ScreenMainUser> {
         onTap: () {
           setState(() {
             currentWidget = ScreenHistoryWork();
+            // currentWidget = ScreenHistoryWork2();
             nameAppbar = 'ประวัติการเปิดงาน';
           });
           Navigator.pop(context);
