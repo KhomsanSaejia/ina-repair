@@ -82,108 +82,108 @@ class _ScreenHistoryWork2State extends State<ScreenHistoryWork2> {
           scrollDirection: Axis.horizontal,
           child: DataTable(
             showCheckboxColumn: false,
-            columns: [],
-            // columns: const <DataColumn>[
-            //   DataColumn(
-            //     label: Text(
-            //       'ลำดับ',
-            //       style: TextStyle(
-            //         color: Colors.red,
-            //         fontSize: 15,
-            //         fontFamily: 'Sarabun',
-            //         fontWeight: FontWeight.bold,
-            //       ),
-            //     ),
-            //   ),
-            //   DataColumn(
-            //     label: Text(
-            //       'เลขที่ใบงาน',
-            //       style: TextStyle(
-            //         color: Colors.red,
-            //         fontSize: 15,
-            //         fontFamily: 'Sarabun',
-            //         fontWeight: FontWeight.bold,
-            //       ),
-            //     ),
-            //   ),
-            //   DataColumn(
-            //     label: Text(
-            //       'อุปกรณ์',
-            //       style: TextStyle(
-            //         color: Colors.red,
-            //         fontSize: 15,
-            //         fontFamily: 'Sarabun',
-            //         fontWeight: FontWeight.bold,
-            //       ),
-            //     ),
-            //   ),
-            //   DataColumn(
-            //     label: Text(
-            //       'วันที่เปิดงาน',
-            //       style: TextStyle(
-            //         color: Colors.red,
-            //         fontSize: 15,
-            //         fontFamily: 'Sarabun',
-            //         fontWeight: FontWeight.bold,
-            //       ),
-            //     ),
-            //   ),
-            //   DataColumn(
-            //     label: Text(
-            //       'วันที่ปิดงาน',
-            //       style: TextStyle(
-            //         color: Colors.red,
-            //         fontSize: 15,
-            //         fontFamily: 'Sarabun',
-            //         fontWeight: FontWeight.bold,
-            //       ),
-            //     ),
-            //   ),
-            //   DataColumn(
-            //     label: Text(
-            //       'S/N',
-            //       style: TextStyle(
-            //         color: Colors.red,
-            //         fontSize: 15,
-            //         fontFamily: 'Sarabun',
-            //         fontWeight: FontWeight.bold,
-            //       ),
-            //     ),
-            //   ),
-            //   DataColumn(
-            //     label: Text(
-            //       'Work ESS',
-            //       style: TextStyle(
-            //         color: Colors.red,
-            //         fontSize: 15,
-            //         fontFamily: 'Sarabun',
-            //         fontWeight: FontWeight.bold,
-            //       ),
-            //     ),
-            //   ),
-            //   DataColumn(
-            //     label: Text(
-            //       'จำนวน',
-            //       style: TextStyle(
-            //         color: Colors.red,
-            //         fontSize: 15,
-            //         fontFamily: 'Sarabun',
-            //         fontWeight: FontWeight.bold,
-            //       ),
-            //     ),
-            //   ),
-            //   DataColumn(
-            //     label: Text(
-            //       'ประกัน',
-            //       style: TextStyle(
-            //         color: Colors.red,
-            //         fontSize: 15,
-            //         fontFamily: 'Sarabun',
-            //         fontWeight: FontWeight.bold,
-            //       ),
-            //     ),
-            //   ),
-            // ],
+            // columns: [],
+            columns: const <DataColumn>[
+              DataColumn(
+                label: Text(
+                  'ลำดับ',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 15,
+                    fontFamily: 'Sarabun',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  'เลขที่ใบงาน',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 15,
+                    fontFamily: 'Sarabun',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  'อุปกรณ์',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 15,
+                    fontFamily: 'Sarabun',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  'วันที่เปิดงาน',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 15,
+                    fontFamily: 'Sarabun',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  'วันที่ปิดงาน',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 15,
+                    fontFamily: 'Sarabun',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  'S/N',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 15,
+                    fontFamily: 'Sarabun',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  'Work ESS',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 15,
+                    fontFamily: 'Sarabun',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  'จำนวน',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 15,
+                    fontFamily: 'Sarabun',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  'ประกัน',
+                  style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 15,
+                    fontFamily: 'Sarabun',
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
             rows: [],
           ),
         ),

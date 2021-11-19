@@ -48,34 +48,46 @@ class _ScreenLoginState extends State<ScreenLogin> {
   Widget build(BuildContext context) {
     return Scaffold(
       // floatingActionButton: buttonedituser(),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: RadialGradient(
-            colors: <Color>[Colors.white, Colors.indigoAccent.shade100],
-            radius: 1.0,
-            center: Alignment(0, -0.3),
-          ),
-        ),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Mystyle().showLogo(),
-                Mystyle().mySizeBox(),
-                Mystyle().showTitle('Innoligent Automation Co., Ltd.'),
-                Mystyle().mySizeBox(),
-                screenloginTHuserform(),
-                Mystyle().mySizeBox(),
-                screenloginTHpasswordform(),
-                Mystyle().mySizeBox(),
-                screenloginTHbutton(),
-                version()
-              ],
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              gradient: RadialGradient(
+                colors: <Color>[Colors.white, Colors.indigoAccent.shade100],
+                radius: 1.0,
+                center: Alignment(0, -0.3),
+              ),
+            ),
+            child: Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Mystyle().showLogo(),
+                    Mystyle().mySizeBox(),
+                    Mystyle().showTitle('Innoligent Automation Co., Ltd.'),
+                    Mystyle().mySizeBox(),
+                    screenloginTHuserform(),
+                    Mystyle().mySizeBox(),
+                    screenloginTHpasswordform(),
+                    Mystyle().mySizeBox(),
+                    screenloginTHbutton(),
+                  ],
+                ),
+              ),
             ),
           ),
-        ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: version(),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -190,31 +202,27 @@ class _ScreenLoginState extends State<ScreenLogin> {
           ),
         ),
       );
-  Widget version() => Container(
-        alignment: Alignment.bottomCenter,
-        padding: EdgeInsets.all(10),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Mystyle().mySizeBox(),
-            Text(
-              'v 0.1.8.1 on 2564-08-24',
-              style: TextStyle(color: Mystyle().darkcolor),
-            ),
-            // Mystyle().mySizeBox(),
-            // Text(
-            //   'MOBILE',
-            //   style: TextStyle(color: Mystyle().darkcolor),
-            // ),
-            // Text(
-            //   'EMU',
-            //   style: TextStyle(color: Mystyle().darkcolor),
-            // ),
-            Text(
-              'WEB APP',
-              style: TextStyle(color: Mystyle().darkcolor),
-            ),
-          ],
-        ),
+  Widget version() => Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Mystyle().mySizeBox(),
+          Text(
+            'v 0.1.8.2 on 2564-11-17',
+            style: TextStyle(color: Mystyle().darkcolor),
+          ),
+          Mystyle().mySizeBox(),
+          // Text(
+          //   'MOBILE',
+          //   style: TextStyle(color: Mystyle().darkcolor),
+          // ),
+          // Text(
+          //   'EMU',
+          //   style: TextStyle(color: Mystyle().darkcolor),
+          // ),
+          Text(
+            'WEB APP',
+            style: TextStyle(color: Mystyle().darkcolor),
+          ),
+        ],
       );
 }

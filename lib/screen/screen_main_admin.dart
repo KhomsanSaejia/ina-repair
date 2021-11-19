@@ -7,6 +7,7 @@ import 'screen_employee.dart';
 import 'screen_history_work.dart';
 import 'screen_homepage_2.dart';
 import 'screen_in_out_patui.dart';
+import 'screen_in_out_patui_mobile.dart';
 import 'screen_in_out_stamp.dart';
 import 'screen_out_stock.dart';
 import 'screen_station.dart';
@@ -293,12 +294,15 @@ class _ScreenMainAdminState extends State<ScreenMainAdmin> {
         title: Text('เวลาเข้า-ออก', style: TextStyle(fontFamily: 'Sarabun')),
         onTap: () {
           setState(() {
-            if (userCode == "62000611" || userCode == "62000613") {
+            if (userCode == "62000611" &&
+                MediaQuery.of(context).size.width > 700) {
               currentWidget = ScreenInOutPatui();
+            } else if (userCode == "62000611" &&
+                MediaQuery.of(context).size.width < 700) {
+              currentWidget = ScreenInOutPatuiMobile();
             } else {
               currentWidget = ScreenInOutTime();
             }
-            // currentWidget = ScreenInOutTime();
             nameAppbar = 'เวลาเข้า-ออก';
           });
           Navigator.pop(context);

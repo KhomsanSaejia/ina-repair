@@ -1,16 +1,9 @@
-import 'dart:convert';
-import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:inapos/model/in_out_model.dart';
 import 'package:inapos/utility/my_constant.dart';
 import 'package:inapos/utility/mystyle.dart';
-import 'package:open_file/open_file.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:syncfusion_flutter_xlsio/xlsio.dart';
-import 'package:universal_html/html.dart' show AnchorElement;
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 class ScreenInOutTime extends StatefulWidget {
   // const ScreenInOutTime({ Key? key }) : super(key: key);
@@ -24,7 +17,8 @@ class _ScreenInOutTimeState extends State<ScreenInOutTime> {
   bool loadstatus = true;
   List<InOutModel> inoutModels = [];
   String userCode;
-  int count = 2;
+  String valRef;
+  TextEditingController _valRef = TextEditingController();
 
   @override
   void initState() {
@@ -76,6 +70,7 @@ class _ScreenInOutTimeState extends State<ScreenInOutTime> {
                 scrollDirection: Axis.vertical,
                 child: Center(
                   child: DataTable(
+                    showCheckboxColumn: false,
                     columns: const <DataColumn>[
                       DataColumn(
                         label: Text(
@@ -125,6 +120,71 @@ class _ScreenInOutTimeState extends State<ScreenInOutTime> {
                     rows: inoutModels
                         .map(
                           (inOutModel) => DataRow(
+                            onSelectChanged: (newValue) {
+                              _valRef.text = inOutModel.referrence.toString();
+                              showDialog(
+                                context: context,
+                                builder: (context) => SimpleDialog(
+                                  title: Center(
+                                    child: Column(
+                                      children: [
+                                        Mystyle().textHeader("แก้ไขหมายเหตุ"),
+                                        Mystyle().mySizeBox(),
+                                        textBoxCustom(_valRef, valRef),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            TextButton(
+                                              onPressed: () async {
+                                                String url =
+                                                    '${MyConstant().urlInOutEdit}';
+                                                await Dio().put(url, data: {
+                                                  "emp_id": inOutModel.empId,
+                                                  "in_date": inOutModel.inDate,
+                                                  "in_time": inOutModel.inTime,
+                                                  "out_time":
+                                                      inOutModel.outTime,
+                                                  "over_time":
+                                                      inOutModel.overTime,
+                                                  "referrence": _valRef.text
+                                                }).then(
+                                                  (value) {
+                                                    if (value.toString() ==
+                                                        'SUCCESS') {
+                                                      Navigator.pop(context);
+                                                    } else {
+                                                      Navigator.pop(context);
+                                                    }
+                                                    readInOutTime();
+                                                  },
+                                                );
+                                              },
+                                              child: Text(
+                                                'บันทึก',
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    color: Colors.green),
+                                              ),
+                                            ),
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                              child: Text(
+                                                'ยกเลิก',
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    color: Colors.red),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
                             cells: [
                               DataCell(
                                 Container(
@@ -194,50 +254,44 @@ class _ScreenInOutTimeState extends State<ScreenInOutTime> {
                 ),
               ),
             ),
-      // floatingActionButton: FloatingActionButton.extended(
-      //   icon: Icon(Icons.add),
-      //   onPressed: () {
-      //     createExcel();
-      //   },
-      //   label: Text("DATA"),
-      // ),
     );
   }
 
-  Future<void> createExcel() async {
-    final Workbook workbook = Workbook();
-    final Worksheet sheet = workbook.worksheets[0];
-    sheet.getRangeByName('A1').setText('emp_id');
-    sheet.getRangeByName('B1').setText('in_date');
-    sheet.getRangeByName('C1').setText('in_time');
-    sheet.getRangeByName('D1').setText('out_time');
-    sheet.getRangeByName('E1').setText('over_time');
-
-    for (var item in inoutModels) {
-      sheet.getRangeByName('A$count').setText(item.empId);
-      sheet.getRangeByName('B$count').setText(item.inDate);
-      sheet.getRangeByName('C$count').setText(item.inTime);
-      sheet.getRangeByName('D$count').setText(item.outTime);
-      sheet.getRangeByName('E$count').setText(item.overTime);
-      setState(() {
-        count = count + 1;
-      });
-    }
-    final List<int> bytes = workbook.saveAsStream();
-    workbook.dispose();
-    if (kIsWeb) {
-      AnchorElement(
-          href:
-              'data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}')
-        ..setAttribute('download', 'เอกสารสำคัญ$userCode.xlsx')
-        ..click();
-    } else {
-      final String path = (await getApplicationSupportDirectory()).path;
-      final String fileName =
-          Platform.isWindows ? '$path\\เอกสาร.xlsx' : '$path/เอกสาร.xlsx';
-      final File file = File(fileName);
-      await file.writeAsBytes(bytes, flush: true);
-      OpenFile.open(fileName);
-    }
+  Widget textBoxCustom(
+      TextEditingController textEditingController, String data) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: const [
+                BoxShadow(
+                    color: Color.fromRGBO(143, 148, 251, .2),
+                    blurRadius: 20.0,
+                    offset: Offset(0, 10))
+              ]),
+          child: Container(
+            width: (MediaQuery.of(context).size.width * 0.7) - 11,
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: textEditingController,
+              style: const TextStyle(
+                  fontFamily: "Sarabun",
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+              onChanged: (value) {
+                setState(() {
+                  data = value.trim();
+                  data = textEditingController.text;
+                });
+              },
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ui';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:inapos/model/in_out_model.dart';
@@ -7,6 +8,8 @@ import 'package:inapos/model/user_add_model.dart';
 import 'package:inapos/utility/my_constant.dart';
 import 'package:inapos/utility/mystyle.dart';
 import 'package:flutter_speed_dial_material_design/flutter_speed_dial_material_design.dart';
+import 'package:intl/date_symbol_data_file.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as excel;
 import 'package:universal_html/html.dart' show AnchorElement;
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -22,6 +25,7 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
   bool status = true;
   bool loadstatus = true;
   List<InOutModel> inOutModels = [];
+  List<InOutModel> inOutModelAlls = [];
 
   UseraddModel useraddModel;
   List<Map> myListuseraddModel = [];
@@ -67,12 +71,13 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
     });
   }
 
-  Future<Null> readInOutTime() async {
+  Future<Null> readInOutTime(
+      String emp, DateTime statrDate, DateTime stopDate) async {
     if (inOutModels.length != 0) {
       inOutModels.clear();
     }
     String url =
-        '${MyConstant().urlInOutDetail}?emp_id=$selectEmp&f_date=${selectedDateStart.toString().split(' ')[0]}&l_date=${selectedDateStop.toString().split(' ')[0]}';
+        '${MyConstant().urlInOutDetail}?emp_id=$emp&f_date=${statrDate.toString().split(' ')[0]}&l_date=${stopDate.toString().split(' ')[0]}';
     await Dio().get(url).then((value) {
       setState(() {
         loadstatus = false;
@@ -80,6 +85,8 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
       if (value.toString() != 'null') {
         for (var map in value.data) {
           InOutModel inOutModel = InOutModel.fromJson(map);
+          print(
+              '${inOutModel.empId} ${inOutModel.empName} ${inOutModel.inDate}');
 
           setState(() {
             inOutModels.add(inOutModel);
@@ -94,35 +101,35 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
     });
   }
 
-  Future<Null> readInOutTimeAll() async {
-    if (inOutModels.length != 0) {
-      inOutModels.clear();
+  Future<Null> readInOutTimeAll(
+      String emp, DateTime statrDate, DateTime stopDate) async {
+    if (inOutModelAlls.length != 0 || inOutModelAlls.isNotEmpty) {
+      inOutModelAlls.clear();
     }
     String url =
-        '${MyConstant().urlInOutAll}?f_date=${selectedDateStart.toString().split(' ')[0]}&l_date=${selectedDateStop.toString().split(' ')[0]}';
+        '${MyConstant().urlInOutDetail}?emp_id=$emp&f_date=${statrDate.toString().split(' ')[0]}&l_date=${stopDate.toString().split(' ')[0]}';
     await Dio().get(url).then((value) {
-      setState(() {
-        loadstatus = false;
-      });
       if (value.toString() != 'null') {
         for (var map in value.data) {
           InOutModel inOutModel = InOutModel.fromJson(map);
-
           setState(() {
-            inOutModels.add(inOutModel);
-            status = true;
+            inOutModelAlls.add(inOutModel);
           });
         }
-      } else {
+        createExcelAll(inOutModelAlls);
         setState(() {
-          status = false;
+          count = 12;
+          inOutModelAlls.clear();
         });
+      } else {
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    // initializeDateFormatting('th', _valOuttime.text);
+    // Intl.defaultLocale = 'th';
     return Scaffold(
       body: Container(
         width: MediaQuery.of(context).size.width * 1,
@@ -138,6 +145,7 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  // Text('${reformatDate("2021-11-16")}'),
                   seleceDateStart(),
                   seleceDateStop(),
                   selectedEmp(),
@@ -193,13 +201,14 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
 
   _onSpeedDialAction(int selectedActionIndex) {
     if (selectedActionIndex == 0) {
-      createExcelSelect();
+      createExcelAll(inOutModels);
       setState(() {
         count = 12;
       });
     } else {
-      readInOutTimeAll();
-      print('$selectedActionIndex Selected');
+      for (var item in myListuseraddModel) {
+        readInOutTimeAll(item['emp_code'], selectedDateStart, selectedDateStop);
+      }
     }
   }
 
@@ -420,7 +429,7 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
       ),
       onPressed: () {
-        readInOutTime();
+        readInOutTime(selectEmp, selectedDateStart, selectedDateStop);
       },
       child: Mystyle().textCustom("ค้นหา", 20.0, Colors.white),
     );
@@ -554,7 +563,11 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
                                                   } else {
                                                     Navigator.pop(context);
                                                   }
-                                                  readInOutTime();
+                                                  // readInOutTime();
+                                                  readInOutTime(
+                                                      selectEmp,
+                                                      selectedDateStart,
+                                                      selectedDateStop);
                                                 },
                                               );
                                             },
@@ -587,8 +600,36 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
                             DataCell(
                               Container(
                                 width: MediaQuery.of(context).size.width * 0.1,
+                                // child: (() {
+                                //   if (reformatDate(inOutModel.inDate.toString())
+                                //               .split(",")[0] ==
+                                //           "Sat" ||
+                                //       reformatDate(inOutModel.inDate.toString())
+                                //               .split(",")[0] ==
+                                //           "Sun") {
+                                //     Text(
+                                //       "${reformatDate(inOutModel.inDate.toString())}",
+                                //       style: TextStyle(
+                                //         color: Colors.red,
+                                //         fontSize: 13,
+                                //         fontFamily: 'Sarabun',
+                                //         fontWeight: FontWeight.bold,
+                                //       ),
+                                //     );
+                                //   } else {
+                                //     Text(
+                                //       "${reformatDate(inOutModel.inDate.toString())}",
+                                //       style: TextStyle(
+                                //         color: Colors.blue.shade400,
+                                //         fontSize: 13,
+                                //         fontFamily: 'Sarabun',
+                                //         fontWeight: FontWeight.bold,
+                                //       ),
+                                //     );
+                                //   }
+                                // }()),
                                 child: Text(
-                                  inOutModel.inDate.toString(),
+                                  "${reformatDate(inOutModel.inDate.toString())}",
                                   style: TextStyle(
                                     color: Colors.blue.shade400,
                                     fontSize: 13,
@@ -676,7 +717,16 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
               ),
       );
 
-  Future<void> createExcelSelect() async {
+  String reformatDate(String date) {
+    List<String> _date = date.split("-");
+    DateTime myDatetime =
+        DateTime(int.parse(_date[0]), int.parse(_date[1]), int.parse(_date[2]));
+    DateFormat formatter = DateFormat.yMEd();
+    String finishDate = formatter.format(myDatetime);
+    return finishDate;
+  }
+
+  Future<void> createExcelAll(List<InOutModel> listInOutModel) async {
     String _month = selectedDateStop.toString().split(' ')[0];
     int _monthNo = int.parse(_month.split('-')[1]);
     int _year = int.parse(_month.split('-')[0]);
@@ -766,7 +816,7 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
     mergeempId.merge();
     mergeempId.cellStyle.hAlign = excel.HAlignType.right;
     mergeempId.cellStyle.vAlign = excel.VAlignType.center;
-    sheet.getRangeByName('D6').text = inOutModels[0].empId;
+    sheet.getRangeByName('D6').text = listInOutModel[0].empId;
     sheet.getRangeByName('D6').cellStyle.fontSize = 14;
     sheet.getRangeByName('D6').cellStyle.fontName = 'TH Sarabun New';
 
@@ -774,7 +824,7 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
     mergeempName.merge();
     mergeempName.cellStyle.hAlign = excel.HAlignType.right;
     mergeempName.cellStyle.vAlign = excel.VAlignType.center;
-    sheet.getRangeByName('D7').text = inOutModels[0].empName;
+    sheet.getRangeByName('D7').text = listInOutModel[0].empName;
     sheet.getRangeByName('D7').cellStyle.fontSize = 14;
     sheet.getRangeByName('D7').cellStyle.fontName = 'TH Sarabun New';
 
@@ -782,7 +832,7 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
     mergeempPosition.merge();
     mergeempPosition.cellStyle.hAlign = excel.HAlignType.right;
     mergeempPosition.cellStyle.vAlign = excel.VAlignType.center;
-    sheet.getRangeByName('D8').text = inOutModels[0].empPosition;
+    sheet.getRangeByName('D8').text = listInOutModel[0].empPosition;
     sheet.getRangeByName('D8').cellStyle.fontSize = 14;
     sheet.getRangeByName('D8').cellStyle.fontName = 'TH Sarabun New';
 
@@ -790,7 +840,7 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
     mergeempDepartment.merge();
     mergeempDepartment.cellStyle.hAlign = excel.HAlignType.right;
     mergeempDepartment.cellStyle.vAlign = excel.VAlignType.center;
-    sheet.getRangeByName('D9').text = inOutModels[0].empDepartment;
+    sheet.getRangeByName('D9').text = listInOutModel[0].empDepartment;
     sheet.getRangeByName('D9').cellStyle.fontSize = 14;
     sheet.getRangeByName('D9').cellStyle.fontName = 'TH Sarabun New';
 
@@ -819,7 +869,7 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
 
     sheet.getRangeByName('A11:I11').cellStyle = styleBorder;
 
-    for (var item in inOutModels) {
+    for (var item in listInOutModel) {
       sheet.getRangeByName('A$count').setText((count - 11).toString());
       sheet.getRangeByName('B$count').setText(item.inDate);
       sheet.getRangeByName('C$count').setText(item.inTime);
@@ -855,7 +905,7 @@ class _ScreenInOutPatuiState extends State<ScreenInOutPatui> {
           href:
               'data:application/octet-stream;charset=utf-16le;base64,${base64.encode(bytes)}')
         ..setAttribute('download',
-            'รายงานบันทึกเวลา ประจำเดือน ${_monthName[_monthNo - 1]} ปี $_year ${inOutModels[0].empName}.xlsx')
+            'รายงานบันทึกเวลา ประจำเดือน ${_monthName[_monthNo - 1]} ปี $_year ${listInOutModel[0].empName}.xlsx')
         ..click();
     }
   }
