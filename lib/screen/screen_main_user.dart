@@ -16,7 +16,8 @@ import 'package:inapos/utility/sign_out_process.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'screen_history_work.dart';
-import 'screen_history_work2.dart';
+// import 'screen_history_work2.dart';
+import 'screen_qrcode.dart';
 
 class ScreenMainUser extends StatefulWidget {
   @override
@@ -83,6 +84,7 @@ class _ScreenMainUserState extends State<ScreenMainUser> {
                 stockrecievecontractor(),
                 stockoutput(),
                 stockout(),
+                qrcode(),
                 inout(),
               ],
             ),
@@ -218,6 +220,21 @@ class _ScreenMainUserState extends State<ScreenMainUser> {
             currentWidget = ScreenHistoryWork();
             // currentWidget = ScreenHistoryWork2();
             nameAppbar = 'ประวัติการเปิดงาน';
+          });
+          Navigator.pop(context);
+        },
+      );
+  ListTile qrcode() => ListTile(
+        leading: Icon(
+          Icons.qr_code_2,
+          color: Colors.green,
+          size: 30.0,
+        ),
+        title: Text('แสกน QR', style: TextStyle(fontFamily: 'Sarabun')),
+        onTap: () {
+          setState(() {
+            currentWidget = ScreenQRcode();
+            nameAppbar = 'แสกน QR';
           });
           Navigator.pop(context);
         },

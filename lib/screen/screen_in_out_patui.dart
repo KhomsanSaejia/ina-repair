@@ -8,7 +8,7 @@ import 'package:inapos/model/user_add_model.dart';
 import 'package:inapos/utility/my_constant.dart';
 import 'package:inapos/utility/mystyle.dart';
 import 'package:flutter_speed_dial_material_design/flutter_speed_dial_material_design.dart';
-import 'package:intl/date_symbol_data_file.dart';
+// import 'package:intl/date_symbol_data_file.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as excel;
 import 'package:universal_html/html.dart' show AnchorElement;

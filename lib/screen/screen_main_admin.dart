@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:inapos/screen/screen_history_work2.dart';
+import 'package:inapos/screen/screen_qrcode.dart';
 import 'package:inapos/utility/mystyle.dart';
 import 'package:inapos/utility/sign_out_process.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screen_employee.dart';
-import 'screen_history_work.dart';
+// import 'screen_history_work.dart';
 import 'screen_homepage_2.dart';
 import 'screen_in_out_patui.dart';
 import 'screen_in_out_patui_mobile.dart';
@@ -87,6 +88,7 @@ class _ScreenMainAdminState extends State<ScreenMainAdmin> {
                 stockrecievecontractor(),
                 stockoutput(),
                 stockout(),
+                qrcode(),
                 inout(),
               ],
             ),
@@ -180,8 +182,8 @@ class _ScreenMainAdminState extends State<ScreenMainAdmin> {
         // onTap: () => Navigator.pop(context),
         onTap: () {
           setState(() {
-            currentWidget = ScreenHistoryWork();
-            // currentWidget = ScreenHistoryWork2();
+            // currentWidget = ScreenHistoryWork();
+            currentWidget = ScreenHistoryWork2();
             nameAppbar = 'ประวัติการเปิดงาน';
           });
           Navigator.pop(context);
@@ -304,6 +306,21 @@ class _ScreenMainAdminState extends State<ScreenMainAdmin> {
               currentWidget = ScreenInOutTime();
             }
             nameAppbar = 'เวลาเข้า-ออก';
+          });
+          Navigator.pop(context);
+        },
+      );
+  ListTile qrcode() => ListTile(
+        leading: Icon(
+          Icons.qr_code_2,
+          color: Colors.green,
+          size: 30.0,
+        ),
+        title: Text('แสกน QR', style: TextStyle(fontFamily: 'Sarabun')),
+        onTap: () {
+          setState(() {
+            currentWidget = ScreenQRcode();
+            nameAppbar = 'แสกน QR';
           });
           Navigator.pop(context);
         },

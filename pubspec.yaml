@@ -44,6 +44,9 @@ dependencies:
   universal_html: ^2.0.8
   flutter_speed_dial_material_design: ^2.0.0
   intl: ^0.17.0
+  qr_flutter: ^4.0.0
+  crypto: ^3.0.1
+  # qrscan: ^0.3.2
 
 
 dev_dependencies:
